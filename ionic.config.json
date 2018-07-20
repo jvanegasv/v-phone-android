@@ -1,0 +1,8 @@
+{
+  "name": "v-phone",
+  "app_id": "e33e311e",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
