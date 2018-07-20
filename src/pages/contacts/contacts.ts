@@ -34,24 +34,27 @@ export class ContactsPage {
     });
     loader.present();
 
-    this.contacts.find(['displayName', 'name', 'phoneNumbers', 'emails'], {filter: "", multiple: true})
+    this.contacts.find(['displayName'], {filter: "", multiple: true, desiredFields: ['displayName','phoneNumbers'], hasPhoneNumber: true})
     .then(contactsData => {
 
       let currentList = [];
 
       contactsData.forEach((data) => {
-        try {
+        // try {
           let contact = {};
           contact['name']   = data.displayName;
           contact['number'] = data.phoneNumbers[0].value.replace(/\D/g,'');
           currentList.push(contact);
-        } catch(e) {
-          console.log('VPHONE:: Error on contact information');
-        }
+        // } catch(e) {
+        //   console.log('VPHONE:: Error on contact information');
+        // }
       });
 
       this.allContacts = this.orderByName(currentList);
 
+      loader.dismiss();
+    })
+    .catch((error) => {
       loader.dismiss();
     });
   }

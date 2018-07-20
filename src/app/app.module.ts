@@ -15,6 +15,8 @@ import { ContactsPage } from '../pages/contacts/contacts';
 import { PhonelinesPage } from '../pages/phonelines/phonelines';
 import { BillingPage } from '../pages/billing/billing';
 import { SettingsPage } from '../pages/settings/settings';
+import { CallcdrPage } from '../pages/callcdr/callcdr';
+import { PhonesettingsPage } from '../pages/phonesettings/phonesettings';
 
 import { StoreProvider } from '../providers/store/store';
 import { UserProvider } from '../providers/user/user';
@@ -43,6 +45,8 @@ import { PhonenumberPipe } from '../pipes/phonenumber/phonenumber';
     PhonelinesPage,
     BillingPage,
     SettingsPage,
+    CallcdrPage,
+    PhonesettingsPage,
     PhonenumberPipe
   ],
   imports: [
@@ -63,6 +67,8 @@ import { PhonenumberPipe } from '../pipes/phonenumber/phonenumber';
     PhonelinesPage,
     BillingPage,
     SettingsPage,
+    CallcdrPage,
+    PhonesettingsPage
   ],
   providers: [
     StatusBar,

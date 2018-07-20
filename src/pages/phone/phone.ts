@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, Events, FabContainer } from 'ionic-angular';
 
 import { PhoneProvider } from '../../providers/phone/phone';
 import { UserProvider } from '../../providers/user/user';
+
+import { PhonesettingsPage } from '../phonesettings/phonesettings';
+import { CallcdrPage } from '../callcdr/callcdr';
 
 /**
  * Generated class for the PhonePage page.
@@ -150,6 +153,18 @@ export class PhonePage {
     this.dialpadShow = true;
     this.speaker = false;
     this.mute = false;
+  }
+
+  loadPhoneSettingsPage(fab: FabContainer) {
+
+    fab.close();
+    this.navCtrl.push(PhonesettingsPage);
+  }
+
+  loadCallCdrPage(fab: FabContainer) {
+
+    fab.close();
+    this.navCtrl.push(CallcdrPage);
   }
 
 }

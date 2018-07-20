@@ -18,6 +18,20 @@
 
 <ion-content padding>
 
+  <ion-fab top right edge *ngIf="phone.endpoint.callStatus == 'idle'" #fab>
+    <button ion-fab color="light">
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="botton">
+      <!-- <button ion-fab (click)="loadPhoneSettingsPage(fab)">
+        <ion-icon name="cog"></ion-icon>
+      </button> -->
+      <button ion-fab (click)="loadCallCdrPage(fab)">
+        <ion-icon name="list"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
     <ion-list>
 
       <ion-item>

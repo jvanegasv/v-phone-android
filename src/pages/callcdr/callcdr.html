@@ -1,0 +1,41 @@
+<!--
+  Generated template for the CallcdrPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title><ion-icon name="list"></ion-icon> CDR</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list no-lines>
+    <ion-item ion-item *ngFor="let item of cdr">
+      <ion-avatar item-start>
+        <!-- <img src="https://voip-communications.net/countries-flags/US.png"> -->
+        <img [src]="item.country">
+      </ion-avatar>
+      <h2>{{ item.number }} (<span *ngIf="item.direction == 'IN'">Call from</span><span *ngIf="item.direction != 'IN'">Call to</span>)</h2>
+      <h3>{{ item.date | date }}</h3>
+      <p>{{ item.duration }} Min - ${{ item.cost | currency }}</p>
+      <p>
+        <button ion-button icon-only small (click)="makeCall(item.number)">
+          <ion-icon name="call"> Phone call</ion-icon>
+        </button>
+        <!-- <button ion-button icon-only small (click)="sendSMS(contact['number'])">
+          <ion-icon name="chatbubbles"> SMS</ion-icon>
+        </button> -->
+      </p>
+    </ion-item>
+  </ion-list>
+
+</ion-content>
