@@ -1,0 +1,51 @@
+<ion-header no-border>
+  <ion-navbar>
+    <ion-buttons end>
+      <button ion-button (click)="startApp()" color="primary">Skip</button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content no-bounce>
+  <ion-slides  pager>
+
+    <ion-slide>
+      <img src="assets/imgs/vphone.png" class="slide-image"/>
+      <h2 class="slide-title">
+        Welcome to <b>V-Phone</b>
+      </h2>
+      <p>
+        The Phone app to call/text the world.
+      </p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/imgs/call-the-world.png" class="slide-image"/>
+      <h2 class="slide-title" >Call the world</h2>
+      <p>Use <b>V-Phone</b> to call any destination worldwide.</p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/imgs/sms-the-world.png" class="slide-image"/>
+      <h2 class="slide-title">SMS worldwide</h2>
+      <p>Reach any mobile phone through SMS.</p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/imgs/best-rates.png" class="slide-image"/>
+      <h2 class="slide-title">Best rates</h2>
+      <p>Pay as you go, always with the best rates.</p>
+    </ion-slide>
+
+    <ion-slide>
+      <img src="assets/imgs/phones-world2.png" class="slide-image"/>
+      <h2 class="slide-title">Phone lines worldwide</h2>
+      <p>Phone lines available in more than 50 countries.</p>
+      <button ion-button icon-end large clear (click)="startApp()">
+        Continue
+        <ion-icon name="arrow-forward"></ion-icon>
+      </button>
+    </ion-slide>
+
+  </ion-slides>
+</ion-content>
