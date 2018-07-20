@@ -20,6 +20,9 @@ export class PhonePage {
 
   plivoOk:boolean = false;
   dialpad:string = "";
+  dialpadShow = true;
+  speaker = false;
+  mute = false;
 
 
   constructor(public navCtrl: NavController,
@@ -40,6 +43,7 @@ export class PhonePage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad PhonePage');
+    this.resetCallControls();
     this.initPhone();
   }
 
@@ -79,6 +83,10 @@ export class PhonePage {
       this.phone.answerCall();
     }
 
+    this.dialpadShow = false;
+    this.speaker = false;
+    this.mute = false;
+
   }
 
   endReject() {
@@ -98,14 +106,33 @@ export class PhonePage {
       }
     }
 
-    this.dialpad = "";
-
+    this.resetCallControls();
   }
 
   dialpadBackspace() {
 
     this.dialpad = this.dialpad.slice(0,-1);
 
+  }
+
+  dialpadOnOff() {
+
+    console.log('V-PHONE:: Dialpad on/off: ' + this.dialpadShow);
+    this.dialpadShow = (this.dialpadShow)? false : true;
+  }
+
+  speakerOnOff() {
+
+    console.log('V-PHONE:: Speaker on/off: ' + this.speaker);
+    this.speaker = (this.speaker)? false : true;
+    this.phone.speakerOnOff(this.speaker);
+  }
+
+  muteOnOff() {
+
+    console.log('V-PHONE:: Mute on/off: ' + this.mute);
+    this.mute = (this.mute)? false : true;
+    this.phone.muteOnOff(this.mute);
   }
 
   showToast(msg:string) {
@@ -115,6 +142,14 @@ export class PhonePage {
       duration: 3000
     }).present();
 
+  }
+
+  resetCallControls() {
+
+    this.dialpad = "";
+    this.dialpadShow = true;
+    this.speaker = false;
+    this.mute = false;
   }
 
 }

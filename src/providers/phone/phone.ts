@@ -243,6 +243,24 @@ export class PhoneProvider {
 
   }
 
+  speakerOnOff(onOff: boolean) {
+
+    if (onOff) {
+      AudioToggle.setAudioMode(AudioToggle.SPEAKER);
+    } else {
+      AudioToggle.setAudioMode(AudioToggle.EARPIECE);
+    }
+  }
+
+  muteOnOff(onOff: boolean) {
+
+    if (onOff) {
+      this.plivoClient.client.mute();
+    } else {
+      this.plivoClient.client.unmute();
+    }
+  }
+
   callDuration(timeStart, timeEnd) {
 
   		let difference_ms = timeEnd - timeStart;
