@@ -25,7 +25,7 @@
         <img [src]="item.country">
       </ion-avatar>
       <h2>{{ item.number }} (<span *ngIf="item.direction == 'IN'">Call from</span><span *ngIf="item.direction != 'IN'">Call to</span>)</h2>
-      <h3>{{ item.date | date }}</h3>
+      <h3>{{ item.date | date:'short' }}</h3>
       <p>{{ item.duration }} Min - ${{ item.cost | currency }}</p>
       <p>
         <button ion-button icon-only small (click)="makeCall(item.number)">
@@ -37,5 +37,9 @@
       </p>
     </ion-item>
   </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="doInfinite($event)">
+    <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

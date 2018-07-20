@@ -19,6 +19,7 @@ import { PhoneProvider } from '../../providers/phone/phone';
 export class CallcdrPage {
 
   cdr:any = [];
+  page = 0;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -32,10 +33,25 @@ export class CallcdrPage {
     this.callCdr();
   }
 
-  callCdr() {
+  doInfinite(infiniteScroll) {
 
-    this.phone.callCdr({username: this.user.userInfo.user_api_key, password: this.user.userInfo.user_api_pwd},{})
+    this.callCdr()
+    .then(() => {
+        infiniteScroll.complete();
+    })
+    .catch(() => {
+      infiniteScroll.complete();
+    });
+    
+  }
+
+  async callCdr() {
+
+    await this.phone.callCdr({username: this.user.userInfo.user_api_key, password: this.user.userInfo.user_api_pwd},{page: this.page})
     .then((result:any) => {
+
+      this.page += (result.length > 0)? 50 : 0;
+
       result.forEach((pcall) => {
         let data = {
           country: '',
