@@ -30,19 +30,8 @@ export class CallcdrPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad CallcdrPage');
+    this.page = 0;
     this.callCdr();
-  }
-
-  doInfinite(infiniteScroll) {
-
-    this.callCdr()
-    .then(() => {
-        infiniteScroll.complete();
-    })
-    .catch(() => {
-      infiniteScroll.complete();
-    });
-    
   }
 
   async callCdr() {
