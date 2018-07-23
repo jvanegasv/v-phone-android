@@ -27,6 +27,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { HTTP } from '@ionic-native/http';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Contacts } from '@ionic-native/contacts';
+import { PayPal } from '@ionic-native/paypal';
 
 import { PhonenumberPipe } from '../pipes/phonenumber/phonenumber';
 // import { PipesModule } from '../pipes/pipes.module';
@@ -80,7 +81,8 @@ import { PhonenumberPipe } from '../pipes/phonenumber/phonenumber';
     SmsProvider,
     HTTP,
     Diagnostic,
-    Contacts
+    Contacts,
+    PayPal
   ]
 })
 export class AppModule {}

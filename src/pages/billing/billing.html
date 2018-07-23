@@ -7,12 +7,32 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>billing</ion-title>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title><ion-icon name="cash"></ion-icon> Billing</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
-
+  <form #paymentForm="ngForm" novalidate>
+  <ion-card>
+    <ion-card-header>
+      <ion-title>Current balance: {{ user.userInfo.user_balance | currency }}</ion-title>
+    </ion-card-header>
+    <ion-card-content>
+      <p>
+        In order to add more funds to your account, enter the amount in the box below and tap the button 'Add funds'.
+      </p>
+      <p>
+        <ion-input type="number" placeholder="$5 (minimum amount allowed)" name="amount" [(ngModel)]="amount" required min="5" max="999"></ion-input>
+      </p>
+      <p>
+        <button ion-button (click)="addFunds(paymentForm)">Add funds...</button>
+      </p>
+    </ion-card-content>
+  </ion-card>
+  </form>
 </ion-content>

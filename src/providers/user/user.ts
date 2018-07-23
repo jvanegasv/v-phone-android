@@ -116,4 +116,9 @@ export class UserProvider {
 
   }
 
+  async recordPayment(paypalResponse:any = {}) {
+
+    await this.http.post('https://voip-communications.net/api-v2/index.php/paypal/payment',paypalResponse,{});
+  }
+
 }
