@@ -53,7 +53,7 @@ export class PhonePage {
   async initPhone() {
 
     await this.phone.setEndPoint();
-    await this.phone.initPlivo(this.user.endpointInfo.username,this.user.endpointInfo.password);
+    await this.phone.initPlivo(this.user.endpointInfo.endpoint_username,this.user.endpointInfo.endpoint_pwd);
   }
 
   keypadPress(keyPressed:string) {

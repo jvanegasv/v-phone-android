@@ -20,14 +20,15 @@
   <form #paymentForm="ngForm" novalidate>
   <ion-card>
     <ion-card-header>
-      <ion-title>Current balance: {{ user.userInfo.user_balance | currency }}</ion-title>
+      <ion-title>Current balance</ion-title>
+      <ion-title>{{ user.userInfo.user_balance | currency }}</ion-title>
     </ion-card-header>
     <ion-card-content>
       <p>
         In order to add more funds to your account, enter the amount in the box below and tap the button 'Add funds'.
       </p>
       <p>
-        <ion-input type="number" placeholder="$5 (minimum amount allowed)" name="amount" [(ngModel)]="amount" required min="5" max="999"></ion-input>
+        <ion-input type="number" placeholder="$5" name="amount" [(ngModel)]="amount" required min="5" max="999"></ion-input>
       </p>
       <p>
         <button ion-button (click)="addFunds(paymentForm)">Add funds...</button>
@@ -35,7 +36,7 @@
     </ion-card-content>
   </ion-card>
   </form>
-
+  <ion-title>Billing Transactions:</ion-title>
   <ion-list no-lines>
     <ion-item ion-item *ngFor="let item of billingList">
       <h2>{{ item.date | date:'short' }} : {{ item.amount | currency }} {{ item.debitcredit }}</h2>

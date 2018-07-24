@@ -1,8 +1,10 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, ModalController } from 'ionic-angular';
 
 import { UserProvider } from '../../providers/user/user';
 import { PhoneProvider } from '../../providers/phone/phone';
+
+import { PlayphonerecPage } from '../playphonerec/playphonerec';
 
 /**
  * Generated class for the CallcdrPage page.
@@ -25,7 +27,8 @@ export class CallcdrPage {
     public navParams: NavParams,
     public user: UserProvider,
     public phone: PhoneProvider,
-    public event: Events) {
+    public event: Events,
+    public modalCtrl: ModalController) {
   }
 
   ionViewDidLoad() {
@@ -84,6 +87,12 @@ export class CallcdrPage {
 
     this.event.publish('smsTo',{phoneNumber});
     this.navCtrl.parent.select(1);
+  }
+
+  playPhoneRec(pcall: any) {
+
+    let play = this.modalCtrl.create(PlayphonerecPage, {pcall});
+    play.present();
   }
 
 }
