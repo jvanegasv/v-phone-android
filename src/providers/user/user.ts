@@ -121,4 +121,26 @@ export class UserProvider {
     await this.http.post('https://voip-communications.net/api-v2/index.php/paypal/payment',paypalResponse,{});
   }
 
+  getBillingDetail(page = 0) {
+
+    let promise = new Promise((resolve, reject) => {
+
+      this.http.useBasicAuth(this.userInfo.user_api_key,this.userInfo.user_api_pwd);
+      this.http.get('https://voip-communications.net/api-v2/index.php/ionic/billing/' + page, {}, {})
+      .then((result) => {
+        const data = JSON.parse(result.data);
+        if (data.error) {
+          reject(data.error_message);
+        } else {
+          resolve(data.billing);
+        }
+      })
+      .catch((error) => {
+        reject('ERROR ' + error.status + ': ' + error.error);
+      })
+    });
+
+    return promise;
+  }
+
 }

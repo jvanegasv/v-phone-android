@@ -21,6 +21,8 @@ import { UserProvider } from '../../providers/user/user';
 export class BillingPage {
 
   amount;
+  billingList = [];
+  page = 0;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
@@ -33,6 +35,8 @@ export class BillingPage {
   ionViewDidLoad() {
     console.log('ionViewDidLoad BillingPage');
     this.getCurrentBalance();
+    this.page = 0;
+    this.loadBillingDetail();
   }
 
   async getCurrentBalance() {
@@ -64,7 +68,7 @@ export class BillingPage {
     });
 
     // Prepare to render Live/SandBox
-    await this.payPal.prepareToRender('PayPalEnvironmentSandbox', new PayPalConfiguration({
+    await this.payPal.prepareToRender('PayPalEnvironmentProduction', new PayPalConfiguration({
       // Only needed if you get an "Internal Service Error" after PayPal login!
       //payPalShippingAddressOption: 2 // PayPalShippingAddressOptionPayPal
     }));
@@ -89,6 +93,42 @@ export class BillingPage {
       duration: 3000,
       position: 'middle'
     }).present();
+
+  }
+
+  async loadBillingDetail() {
+
+    if (this.page < 0) {
+      return;
+    }
+
+    const result:any = await this.user.getBillingDetail(this.page);
+
+    if (result.length > 0) {
+      this.page++;
+    } else {
+      this.page = -1;
+    }
+
+    result.forEach((data) => {
+
+      let txinfo = {
+        date: data.usrbilling_date,
+        amount: 0,
+        debitcredit: 'X',
+        description: data.service_name
+      }
+
+      if (data.usrbilling_debit == 0) {
+        txinfo.amount = data.usrbilling_credit * 1;
+        txinfo.debitcredit = 'Credit';
+      } else {
+        txinfo.amount = data.usrbilling_debit * 1;
+        txinfo.debitcredit = 'Debit';
+      }
+
+      this.billingList.push(txinfo)
+    });
 
   }
 

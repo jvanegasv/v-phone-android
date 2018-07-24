@@ -36,10 +36,18 @@ export class CallcdrPage {
 
   async callCdr() {
 
+    if (this.page < 0) {
+      return;
+    }
+
     await this.phone.callCdr({username: this.user.userInfo.user_api_key, password: this.user.userInfo.user_api_pwd},{page: this.page})
     .then((result:any) => {
 
-      this.page += (result.length > 0)? 50 : 0;
+      if (result.length > 0) {
+        this.page++;
+      } else {
+        this.page = -1;
+      }
 
       result.forEach((pcall) => {
         let data = {

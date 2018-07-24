@@ -35,4 +35,18 @@
     </ion-card-content>
   </ion-card>
   </form>
+
+  <ion-list no-lines>
+    <ion-item ion-item *ngFor="let item of billingList">
+      <h2>{{ item.date | date:'short' }} : {{ item.amount | currency }} {{ item.debitcredit }}</h2>
+      <h3>{{ item.description }}</h3>
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(loadBillingDetail())">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>
