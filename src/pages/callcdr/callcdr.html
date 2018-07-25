@@ -28,7 +28,7 @@
       <p>{{ item.duration }} Min - {{ item.cost | currency }}</p>
       <p>
         <ion-row>
-          <ion-col *ngIf="item.record != ''">
+          <ion-col *ngIf="item.record != '' && item.duration > 0">
             <button ion-button full icon-only small (click)="playPhoneRec(item)">
               <ion-icon name="recording"></ion-icon>
             </button>

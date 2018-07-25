@@ -1,6 +1,6 @@
 import { HTTP } from '@ionic-native/http';
 import { Injectable } from '@angular/core';
-import { ToastController, AlertController, LoadingController } from 'ionic-angular';
+import { ToastController, AlertController, LoadingController, Events } from 'ionic-angular';
 import { Diagnostic } from '@ionic-native/diagnostic';
 
 import { StoreProvider } from '../store/store';
@@ -33,10 +33,16 @@ export class PhoneProvider {
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     private http: HTTP,
-    public store: StoreProvider
+    public store: StoreProvider,
+    public event: Events
   ) {
 
     console.log('Hello PhoneProvider Provider');
+
+    this.loading = this.loadingCtrl.create({
+      content: "Checking connection, please wait...",
+    });
+
   }
 
   async setEndPoint() {
@@ -54,6 +60,7 @@ export class PhoneProvider {
 
     //Occurs when a login is successful
     this.plivoClient.client.on('onLogin',() => {
+      this.loading.dismiss();
       this.endpoint.status = "onLine";
       this.endpoint.callStatus = "idle";
       this.endpoint.callDirection = "idle";
@@ -62,6 +69,7 @@ export class PhoneProvider {
 
     //Occurs when a login has failed.cause returns the login failure reason
     this.plivoClient.client.on('onLoginFailed', (cause) => {
+      this.loading.dismiss();
       this.endpoint.status = 'offLine';
       this.endpoint.callStatus = "idle";
       this.endpoint.callDirection = "idle";
@@ -70,6 +78,7 @@ export class PhoneProvider {
 
     //Occurs when a logout is successful
     this.plivoClient.client.on('onLogout',() => {
+      this.loading.dismiss();
       this.endpoint.status = "offLine";
       this.endpoint.callStatus = "idle";
       this.endpoint.callDirection = "idle";
@@ -78,22 +87,16 @@ export class PhoneProvider {
 
     //Occurs when an outbound call fails. cause returns the reason for call failing
     this.plivoClient.client.on('onCallFailed',(cause) => {
-
       this.loading.dismiss();
-
       this.endpoint.callStatus = "idle";
       this.endpoint.callDirection = "idle";
       this.showToast("Call failed: " + cause);
+      this.event.publish('callTerminated',{});
     });
 
     //Occurs when a call is initiated
     this.plivoClient.client.on('onCalling',() => {
-
-      this.loading = this.loadingCtrl.create({
-        content: "Checking connection, please wait...",
-      });
       this.loading.present();
-
       this.endpoint.callStatus = "calling";
       this.endpoint.callDirection = "OUT";
       this.showToast("Calling");
@@ -102,11 +105,8 @@ export class PhoneProvider {
 
     //Occurs when the remote end starts ringing during an outbound call
     this.plivoClient.client.on('onCallRemoteRinging',() => {
-
-      AudioToggle.setAudioMode(AudioToggle.EARPIECE);
-
       this.loading.dismiss();
-
+      AudioToggle.setAudioMode(AudioToggle.EARPIECE);
       this.endpoint.callStatus = "ringing";
       this.endpoint.callDirection = "OUT";
       this.showToast("Remote ringing");
@@ -115,8 +115,8 @@ export class PhoneProvider {
     //Occurs when the an outbound call is answered
     this.plivoClient.client.on('onCallAnswered',() => {
 
+      this.loading.dismiss();
       AudioToggle.setAudioMode(AudioToggle.EARPIECE);
-
       this.endpoint.callStatus = "onCall";
       this.showToast("Call answered");
 
@@ -131,15 +131,18 @@ export class PhoneProvider {
 
     //Occurs when the an outbound call has ended
     this.plivoClient.client.on('onCallTerminated',() => {
+      this.loading.dismiss();
       this.endpoint.callStatus = "idle";
       this.endpoint.callDirection = "idle";
       this.showToast("Call terminated");
       clearInterval(this.callDurationInterval);
       this.endpoint.callDuration = '0:0:0';
+      this.event.publish('callTerminated',{});
     });
 
     //Occurs when there is an incoming call. callerID provides the callerID and extraHeaders return the X-Headers from Plivo
     this.plivoClient.client.on('onIncomingCall',(callerID, extraHeaders) => {
+      this.loading.dismiss();
       this.endpoint.callStatus = "ringing";
       this.endpoint.callDirection = "IN";
       console.log("incoming call");
@@ -164,17 +167,21 @@ export class PhoneProvider {
         ]
       });
       confirm.present();
+      this.event.publish('incomingCall',{});
     });
 
     //Occurs when an incoming call is cancelled by the caller
     this.plivoClient.client.on('onIncomingCallCanceled',() => {
+      this.loading.dismiss();
       this.endpoint.callStatus = "idle";
       this.endpoint.callDirection = "idle";
       this.showToast("Incoming call canceled");
+      this.event.publish('callTerminated',{});
     });
 
 
     this.plivoClient.client.on('onWebrtcNotSupported',() => {
+      this.loading.dismiss();
       this.showToast("webRtc not supported");
     });
 
@@ -194,11 +201,8 @@ export class PhoneProvider {
 
   async initPlivo(username, password) {
 
-    // this.showToast('Credentials: ' + username + ' ' + password);
     const micOk = await this.checkDevicePermissions();
-    // const micOk = true;
     if (micOk) {
-      // this.showToast('Login...');
       this.plivoClient.client.login(username,password);
 
     }
@@ -314,4 +318,27 @@ export class PhoneProvider {
     return promise;
 
   }
+
+  async setSettings(newSettings:any = {}) {
+
+    await this.http.post('https://voip-communications.net/api-v2/index.php/local/endpointoutbound',newSettings,{})
+
+  }
+
+  quote(credentials:any = {}, callTo) {
+
+    let promise = new Promise((resolve) => {
+
+      this.http.useBasicAuth(credentials.username, credentials.password);
+      this.http.get('https://voip-communications.net/api-v2/index.php/ionic/callquote/' + callTo,{},{})
+      .then((result) => {
+        const data = JSON.parse(result.data);
+        resolve(data);
+      });
+
+    });
+
+    return promise;
+  }
+
 }

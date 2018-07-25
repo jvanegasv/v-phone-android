@@ -17,5 +17,72 @@
 
 
 <ion-content padding>
-{{ user.endpointInfo | json}}
+  <form #settingsForm="ngForm" novalidate>
+
+  <ion-row>
+    <ion-col>
+      <h1>Outbound Calls</h1>
+    </ion-col>
+  </ion-row>
+  <ion-list>
+    <ion-item>
+      <ion-label>Show Balance</ion-label>
+      <ion-checkbox [(ngModel)]="play_balance" name="play_balance"></ion-checkbox>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Show Minutes available</ion-label>
+      <ion-checkbox [(ngModel)]="play_minutes" name="play_minutes"></ion-checkbox>
+    </ion-item>
+  </ion-list>
+
+  <ion-row>
+    <ion-col>
+      <h2>Record phone call:</h2>
+    </ion-col>
+  </ion-row>
+  <ion-list radio-group [(ngModel)]="outbound.rec" name="outbound_rec">
+    <ion-item>
+      <ion-label>Never</ion-label>
+      <ion-radio value="NEVER" [checked]="outbound.rec == 'NEVER'"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>Always</ion-label>
+      <ion-radio value="ALWAYS" [checked]="outbound.rec == 'ALWAYS'"></ion-radio>
+    </ion-item>
+    <ion-item>
+      <ion-label>On-Demand (*)</ion-label>
+      <ion-radio value="ON-DEMAND" [checked]="outbound.rec == 'ON-DEMAND'"></ion-radio>
+    </ion-item>
+  </ion-list>
+
+  <ion-row>
+    <ion-col>
+      <h2>Calls as:</h2>
+    </ion-col>
+  </ion-row>
+  <ion-list>
+    <ion-item>
+      <ion-label>Country</ion-label>
+      <ion-select [(ngModel)]="user.endpointInfo.endpoint_country" name="callAsCountry">
+        <ion-option *ngFor="let item of countries" [value]="item.code">{{ item.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Area code</ion-label>
+      <ion-input type="number" [(ngModel)]="user.endpointInfo.endpoint_areacode" name="callAsAreaCode"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>Caller Id</ion-label>
+      <ion-input type="number" [(ngModel)]="user.endpointInfo.endpoint_callerid" name="callAsCallerId"></ion-input>
+    </ion-item>
+  </ion-list>
+
+
+    <ion-row>
+      <ion-col>
+        <button ion-button full (click)="saveChanges(settingsForm)">Save Changes</button>
+      </ion-col>
+    </ion-row>
+  </form>
 </ion-content>

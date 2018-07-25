@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController, ToastController, Events, FabContainer } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController, Events, FabContainer, AlertController } from 'ionic-angular';
 
 import { PhoneProvider } from '../../providers/phone/phone';
 import { UserProvider } from '../../providers/user/user';
@@ -34,12 +34,20 @@ export class PhonePage {
     public user: UserProvider,
     public loadingCtrl: LoadingController,
     public modalCtrl: ModalController,
-    public toastCtrl: ToastController,
+    public alertCtrl: AlertController,
     public event: Events) {
 
       event.subscribe('callTo',(data) => {
         this.dialpad = data.phoneNumber;
         this.callAsnwer();
+      });
+
+      event.subscribe('callTerminated',() => {
+        this.resetCallControls();
+      });
+
+      event.subscribe('incomingCall',(data) => {
+        console.log('llamada entrante');
       });
 
   }
@@ -71,13 +79,51 @@ export class PhonePage {
     //make call
     if (this.phone.endpoint.status == 'offLine') {
       window.location.reload();
-      // this.showToast('intentando relogin');
-      // await this.initPhone();
     }
 
     if (this.phone.endpoint.callStatus == "idle") {
       if (this.dialpad !== "") {
-        this.phone.makeCall(this.dialpad);
+        if (this.user.endpointInfo.outbound.outbound.play_balance == 'Y' || this.user.endpointInfo.outbound.outbound.play_minutes == 'Y') {
+
+          const loading = this.loadingCtrl.create({
+            content: "Please wait...",
+          });
+          loading.present();
+          const quote:any = await this.phone.quote({username: this.user.userInfo.user_api_key, password: this.user.userInfo.user_api_pwd},this.dialpad);
+          loading.dismiss();
+
+          const alertTitle = "Call to " + this.dialpad + " (" + quote.country + ")";
+          let alertMsg = "";
+          alertMsg += (this.user.endpointInfo.outbound.outbound.play_balance == 'Y')? "Your current balance is $" + quote.balance + ". ": "";
+          alertMsg += (this.user.endpointInfo.outbound.outbound.play_minutes == 'Y')? "You have " + quote.mins + " available for this call. ": "";
+          const confirm = this.alertCtrl.create({
+          title: alertTitle,
+          message: alertMsg,
+          buttons: [
+            {
+              text: 'Cancel',
+              handler: () => {
+                console.log('cancel clicked');
+              }
+            },
+            {
+              text: 'Make Call',
+              handler: () => {
+                this.phone.makeCall(this.dialpad);
+                this.dialpadShow = false;
+                this.speaker = false;
+                this.mute = false;
+              }
+            }
+          ]
+        });
+        confirm.present();
+        } else {
+          this.phone.makeCall(this.dialpad);
+          this.dialpadShow = false;
+          this.speaker = false;
+          this.mute = false;
+        }
       }
     }
 
@@ -85,10 +131,6 @@ export class PhonePage {
     if (this.phone.endpoint.callStatus == "ringing" && this.phone.endpoint.callDirection == "IN") {
       this.phone.answerCall();
     }
-
-    this.dialpadShow = false;
-    this.speaker = false;
-    this.mute = false;
 
   }
 
@@ -136,15 +178,6 @@ export class PhonePage {
     console.log('V-PHONE:: Mute on/off: ' + this.mute);
     this.mute = (this.mute)? false : true;
     this.phone.muteOnOff(this.mute);
-  }
-
-  showToast(msg:string) {
-
-    this.toastCtrl.create({
-      message: msg,
-      duration: 3000
-    }).present();
-
   }
 
   resetCallControls() {

@@ -143,4 +143,22 @@ export class UserProvider {
     return promise;
   }
 
+  async getCountries() {
+
+    let countries = [];
+
+    await this.http.get('https://voip-communications.net/api-v2/index.php/local/countries',{},{})
+    .then((result) => {
+      const data = JSON.parse(result.data);
+      data.countries.forEach((country) => {
+        countries.push({
+          code: country.country_code_2,
+          name: country.country_name + ' (' + country.country_e164 + ')'
+        });
+      })
+    });
+
+    return countries;
+  }
+
 }
