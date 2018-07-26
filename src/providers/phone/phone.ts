@@ -321,7 +321,7 @@ export class PhoneProvider {
 
   async setSettings(newSettings:any = {}) {
 
-    await this.http.post('https://voip-communications.net/api-v2/index.php/local/endpointoutbound',newSettings,{})
+    await this.http.post('https://voip-communications.net/api-v2/index.php/ionic/endpointoutbound',newSettings,{})
 
   }
 

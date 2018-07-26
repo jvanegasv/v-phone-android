@@ -147,7 +147,7 @@ export class UserProvider {
 
     let countries = [];
 
-    await this.http.get('https://voip-communications.net/api-v2/index.php/local/countries',{},{})
+    await this.http.get('https://voip-communications.net/api-v2/index.php/ionic/countries',{},{})
     .then((result) => {
       const data = JSON.parse(result.data);
       data.countries.forEach((country) => {
