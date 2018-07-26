@@ -1,7 +1,10 @@
 import { HTTP } from '@ionic-native/http';
 import { Injectable } from '@angular/core';
+import { Device } from '@ionic-native/device';
 
 import { StoreProvider } from '../store/store'
+
+
 
 /*
   Generated class for the UserProvider provider.
@@ -15,7 +18,9 @@ export class UserProvider {
   public userInfo;
   public endpointInfo;
 
-  constructor(private http: HTTP, private store: StoreProvider) {
+  constructor(private http: HTTP,
+    private store: StoreProvider,
+    private device: Device) {
     console.log('Hello UserProvider Provider');
   }
 
@@ -161,4 +166,23 @@ export class UserProvider {
     return countries;
   }
 
+  registerDevice() {
+
+    const deviceInfo = {
+      user_id: this.userInfo.user_id,
+      endpoint_id: this.endpointInfo.endpoint_id,
+      vphone: '1.3.3',
+      cordova: this.device.cordova,
+      model: this.device.model,
+      platform: this.device.platform,
+      uuid: this.device.uuid,
+      version: this.device.version,
+      manufacturer: this.device.manufacturer,
+      isVirtual: this.device.isVirtual,
+      serial: this.device.serial
+    }
+
+    this.http.useBasicAuth(this.userInfo.user_api_key,this.userInfo.user_api_pwd);
+    this.http.post('https://voip-communications.net/api-v2/index.php/ionic/uservphone',deviceInfo,{});
+  }
 }

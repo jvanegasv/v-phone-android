@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, ModalController, Events, FabContainer, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController, ModalController, Events, FabContainer } from 'ionic-angular';
 
 import { PhoneProvider } from '../../providers/phone/phone';
 import { UserProvider } from '../../providers/user/user';
 
 import { PhonesettingsPage } from '../phonesettings/phonesettings';
 import { CallcdrPage } from '../callcdr/callcdr';
+
+import swal from 'sweetalert2';
 
 /**
  * Generated class for the PhonePage page.
@@ -34,7 +36,6 @@ export class PhonePage {
     public user: UserProvider,
     public loadingCtrl: LoadingController,
     public modalCtrl: ModalController,
-    public alertCtrl: AlertController,
     public event: Events) {
 
       event.subscribe('callTo',(data) => {
@@ -49,6 +50,8 @@ export class PhonePage {
       event.subscribe('incomingCall',(data) => {
         console.log('llamada entrante');
       });
+
+      this.user.registerDevice();
 
   }
 
@@ -92,32 +95,30 @@ export class PhonePage {
           const quote:any = await this.phone.quote({username: this.user.userInfo.user_api_key, password: this.user.userInfo.user_api_pwd},this.dialpad);
           loading.dismiss();
 
-          const alertTitle = "Call to " + this.dialpad + " (" + quote.country + ")";
+          const alertTitle = "Call to " + this.dialpad + " (" + quote.country_name + ")";
           let alertMsg = "";
-          alertMsg += (this.user.endpointInfo.outbound.outbound.play_balance == 'Y')? "Your current balance is $" + quote.balance + ". ": "";
-          alertMsg += (this.user.endpointInfo.outbound.outbound.play_minutes == 'Y')? "You have " + quote.mins + " available for this call. ": "";
-          const confirm = this.alertCtrl.create({
-          title: alertTitle,
-          message: alertMsg,
-          buttons: [
-            {
-              text: 'Cancel',
-              handler: () => {
-                console.log('cancel clicked');
-              }
-            },
-            {
-              text: 'Make Call',
-              handler: () => {
-                this.phone.makeCall(this.dialpad);
-                this.dialpadShow = false;
-                this.speaker = false;
-                this.mute = false;
-              }
-            }
-          ]
-        });
-        confirm.present();
+          alertMsg += (this.user.endpointInfo.outbound.outbound.play_balance == 'Y')? "Your current balance is $" + quote.balance + ".<br/>": "";
+          alertMsg += (this.user.endpointInfo.outbound.outbound.play_minutes == 'Y')? "You have " + quote.mins + " minutes available for this call.<br/>": "";
+
+          const confirmCall:any = await swal({
+            imageUrl: 'https://voip-communications.net/countries-flags/' + quote.country + '.png',
+            imageWidth: 50,
+            title: alertTitle,
+            html: alertMsg,
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Make the phone call!'
+          });
+
+          if (confirmCall.value) {
+            this.phone.makeCall(this.dialpad);
+            this.dialpadShow = false;
+            this.speaker = false;
+            this.mute = false;
+
+          }
+
         } else {
           this.phone.makeCall(this.dialpad);
           this.dialpadShow = false;

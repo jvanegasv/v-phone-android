@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, LoadingController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 
 import { NgForm } from '@angular/forms';
 
 import { TabsPage } from '../tabs/tabs';
 
 import { UserProvider } from '../../providers/user/user';
+
+import swal from 'sweetalert2';
 
 /**
  * Generated class for the RegisterPage page.
@@ -30,8 +32,7 @@ export class RegisterPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public user: UserProvider,
-    public loadingCtrl: LoadingController,
-    public alertCtrl: AlertController) {
+    public loadingCtrl: LoadingController) {
   }
 
   ionViewDidLoad() {
@@ -48,12 +49,7 @@ export class RegisterPage {
     if (form.valid) {
 
       if (this.user_pwd != this.user_pwd2) {
-        const alert = this.alertCtrl.create({
-          title: 'ERROR',
-          subTitle: "Password didn't match",
-          buttons: ['OK']
-        });
-        alert.present();
+        this.showSwal("error","Oops...","Password didn't match");
         return;
       }
 
@@ -68,33 +64,33 @@ export class RegisterPage {
         loader.dismiss();
         this.navCtrl.setRoot(TabsPage);
         this.navCtrl.popToRoot();
-        
+
       })
       .catch((error) => {
 
         loader.dismiss();
-        const alert = this.alertCtrl.create({
-          title: 'ERROR',
-          subTitle: error,
-          buttons: ['OK']
-        });
-        alert.present();
+        this.showSwal("error","ERROR",error);
       });
 
     } else {
-      let error_msg = 'Please fix the next errors:';
-      error_msg += (form.controls.user_fname.invalid)? ' First name is required;': '';
-      error_msg += (form.controls.user_lname.invalid)? ' Last name is required;': '';
-      error_msg += (form.controls.user_email.invalid)? ' Enter a valid email address;': '';
-      error_msg += (form.controls.user_pwd.invalid)? ' Password is required;': '';
-      error_msg += (form.controls.user_pwd2.invalid)? ' Password confirmation is required;': '';
-      const alert = this.alertCtrl.create({
-        title: 'ERROR',
-        subTitle: error_msg,
-        buttons: ['OK']
-      });
-      alert.present();
+      let error_msg = 'Please fix the next errors:<br/>';
+      error_msg += (form.controls.user_fname.invalid)? 'First name is required;<br/>': '';
+      error_msg += (form.controls.user_lname.invalid)? 'Last name is required;<br/>': '';
+      error_msg += (form.controls.user_email.invalid)? 'Enter a valid email address;<br/>': '';
+      error_msg += (form.controls.user_pwd.invalid)? 'Password is required;<br/>': '';
+      error_msg += (form.controls.user_pwd2.invalid)? 'Password confirmation is required;<br/>': '';
+      this.showSwal('error','Oops...',error_msg);
     }
+
+  }
+
+  showSwal(swalType, swalTitle, swalHtml) {
+
+    swal({
+      type: swalType,
+      title: swalTitle,
+      html: swalHtml
+    });
 
   }
 

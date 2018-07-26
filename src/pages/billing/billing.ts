@@ -1,10 +1,12 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, ToastController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 
 import { PayPal, PayPalPayment, PayPalConfiguration } from '@ionic-native/paypal';
 
 import { UserProvider } from '../../providers/user/user';
+
+import swal from 'sweetalert2';
 
 /**
  * Generated class for the BillingPage page.
@@ -26,7 +28,6 @@ export class BillingPage {
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
-    public alertCtrl: AlertController,
     private toastCtrl: ToastController,
     public user: UserProvider,
     private payPal: PayPal) {
@@ -50,12 +51,13 @@ export class BillingPage {
     if (form.valid && this.amount >= 5) {
       this.ppPayment();
     } else {
-      const alert = this.alertCtrl.create({
-        title: 'ERROR',
-        subTitle: 'Amount must be a number greather or equal to 5',
-        buttons: ['OK']
+      swal({
+        type: 'error',
+        title: 'Oops...',
+        html: 'Minimum amount allowed $5'
       });
-      alert.present();
+
+
     }
   }
 

@@ -65,11 +65,11 @@ export class PhonesettingsPage {
       });
       loading.present();
 
-      await this.phone.setSettings(newSettings);
+      await this.phone.setSettings({username: this.user.userInfo.user_api_key, password: this.user.userInfo.user_api_pwd},newSettings);
       await this.user.loadUserInfo();
 
       loading.dismiss();
-      
+
       this.navCtrl.pop();
     }
 

@@ -1,11 +1,13 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, LoadingController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
 import { NgForm } from '@angular/forms';
 
 import { RegisterPage } from '../register/register';
 import { TabsPage } from '../tabs/tabs';
 
 import { UserProvider } from '../../providers/user/user'
+
+import swal from 'sweetalert2';
 
 /**
  * Generated class for the LoginPage page.
@@ -27,7 +29,6 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public user: UserProvider,
-    public alertCtrl: AlertController,
     public loadingCtrl: LoadingController) {
   }
 
@@ -59,24 +60,23 @@ export class LoginPage {
       .catch((error) => {
 
         loader.dismiss();
-        const alert = this.alertCtrl.create({
+        swal({
+          type: 'error',
           title: 'ERROR',
-          subTitle: error,
-          buttons: ['OK']
+          html: error
         });
-        alert.present();
       });
 
     } else {
-      let error_msg = 'Please fix the next errors:';
-      error_msg += (form.controls.email.invalid)? ' Enter a valid email address;': '';
-      error_msg += (form.controls.password.invalid)? ' Password is required;': '';
-      const alert = this.alertCtrl.create({
-        title: 'ERROR',
-        subTitle: error_msg,
-        buttons: ['OK']
+      let error_msg = 'Please fix the next errors:<br/>';
+      error_msg += (form.controls.email.invalid)? 'Enter a valid email address;<br/>': '';
+      error_msg += (form.controls.password.invalid)? 'Password is required;<br/>': '';
+      swal({
+        type: 'error',
+        title: 'Oops...',
+        html: error_msg
       });
-      alert.present();
+
     }
 
   }

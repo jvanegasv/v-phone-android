@@ -319,8 +319,9 @@ export class PhoneProvider {
 
   }
 
-  async setSettings(newSettings:any = {}) {
+  async setSettings(credentials:any = {}, newSettings:any = {}) {
 
+    this.http.useBasicAuth(credentials.username, credentials.password);
     await this.http.post('https://voip-communications.net/api-v2/index.php/ionic/endpointoutbound',newSettings,{})
 
   }

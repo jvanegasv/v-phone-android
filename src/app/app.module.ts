@@ -29,6 +29,7 @@ import { HTTP } from '@ionic-native/http';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Contacts } from '@ionic-native/contacts';
 import { PayPal } from '@ionic-native/paypal';
+import { Device } from '@ionic-native/device';
 
 import { PhonenumberPipe } from '../pipes/phonenumber/phonenumber';
 // import { PipesModule } from '../pipes/pipes.module';
@@ -85,7 +86,8 @@ import { PhonenumberPipe } from '../pipes/phonenumber/phonenumber';
     HTTP,
     Diagnostic,
     Contacts,
-    PayPal
+    PayPal,
+    Device
   ]
 })
 export class AppModule {}
