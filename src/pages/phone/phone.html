@@ -22,13 +22,16 @@
 
       <ion-item>
         <ion-input type="text" placeholder="Enter phone number" [(ngModel)]="dialpad" disabled="true"></ion-input>
+        <button item-right round *ngIf="phone.endpoint.callStatus == 'idle' && dialpad.length > 0" (click)="dialpadBackspace()">
+            <ion-icon name="backspace"></ion-icon>
+        </button>
       </ion-item>
 
     </ion-list>
 
     <ion-grid>
 
-      <div id='divDialPad' *ngIf="dialpadShow">
+      <div id='divDialPad'>
         <ion-row>
           <ion-col>
             <button ion-button block color="dark" round (click)="keypadPress('1')">1</button>
@@ -76,76 +79,47 @@
             <button ion-button block color="dark" round (click)="keypadPress('#')">#</button>
           </ion-col>
         </ion-row>
-      </div>
 
-      <div id='divOnIdleControls' *ngIf="phone.endpoint.callStatus == 'idle'">
-        <ion-row>
-            <ion-item text-center>
+        <ion-row *ngIf="phone.endpoint.callStatus == 'idle'">
+            <ion-col text-center>
               <button ion-button color="secondary" round large (click)="callAsnwer()">
                 <ion-icon name="call"></ion-icon>
               </button>
-              <button ion-button color="light" round large *ngIf="dialpad.length > 0" (click)="dialpadBackspace()">
-                <ion-icon name="backspace"></ion-icon>
-              </button>
-            </ion-item>
+            </ion-col>
         </ion-row>
-      </div>
 
-      <div id='divOnCallControls' *ngIf="phone.endpoint.callStatus !== 'idle'">
-        <ion-row *ngIf="!dialpadShow">
-          <!-- Dialpad controls -->
-          <ion-col>
-            <ion-item text-center>
-              <button ion-button color="dark" round large (click)="dialpadOnOff()">
-                <ion-icon name="keypad"></ion-icon>
-              </button>
-            </ion-item>
-          </ion-col>
-          <!-- Speaker controls -->
-          <ion-col>
-            <ion-item text-center>
+        <ion-row *ngIf="phone.endpoint.callStatus !== 'idle'">
+          <ion-col text-center>
               <!-- Turn on speaker -->
-              <button *ngIf="!speaker" ion-button color="dark" round large (click)="speakerOnOff()">
+              <button *ngIf="!speaker" ion-button color="light" round large (click)="speakerOnOff()">
                 <ion-icon name="volume-up"></ion-icon>
               </button>
               <!-- Turn off speaker -->
-              <button *ngIf="speaker" ion-button color="dark" round large (click)="speakerOnOff()">
+              <button *ngIf="speaker" ion-button color="secondary" round large (click)="speakerOnOff()">
                 <ion-icon name="volume-off"></ion-icon>
               </button>
-            </ion-item>
+          </ion-col>
+
+          <ion-col text-center>
+              <button ion-button color="danger" round large (click)="endReject()">
+                <ion-icon name="close-circle"></ion-icon> ({{ phone.endpoint.callDuration }})
+              </button>
+          </ion-col>
+
+          <ion-col text-center>
+            <!-- Mute on -->
+            <button *ngIf="!mute" ion-button color="light" round large (click)="muteOnOff()">
+              <ion-icon name="mic-off"></ion-icon>
+            </button>
+            <!-- Mute off-->
+            <button *ngIf="mute" ion-button color="secondary" round large (click)="muteOnOff()">
+              <ion-icon name="mic"></ion-icon>
+            </button>
           </ion-col>
         </ion-row>
-        <!-- Mute -->
-        <ion-row *ngIf="!dialpadShow">
-            <ion-item text-center>
-              <!-- Un-mute -->
-              <button *ngIf="mute" ion-button color="dark" round large (click)="muteOnOff()">
-                <ion-icon name="mic"></ion-icon>
-              </button>
-              <!-- Mute -->
-              <button *ngIf="!mute" ion-button color="dark" round large (click)="muteOnOff()">
-                <ion-icon name="mic-off"></ion-icon>
-              </button>
-            </ion-item>
-        </ion-row>
-        <!-- End call hide dialpad -->
-        <ion-row>
-          <!-- Hide dialpad -->
-          <ion-col *ngIf="dialpadShow">
-            <ion-item text-center>
-              <button ion-button color="dark" round large (click)="dialpadOnOff()">
-                <ion-icon name="keypad"></ion-icon>
-              </button>
-            </ion-item>
-          </ion-col>
-          <!-- End phonecall -->
-          <ion-col>
-            <ion-item text-center>
-              <button ion-button color="danger" round large (click)="endReject()">End ({{ phone.endpoint.callDuration }})</button>
-            </ion-item>
-          </ion-col>
-        </ion-row>
+
       </div>
+
     </ion-grid>
 
   </ion-content>
