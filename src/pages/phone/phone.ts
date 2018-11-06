@@ -4,8 +4,8 @@ import { IonicPage, NavController, NavParams, LoadingController, ModalController
 import { PhoneProvider } from '../../providers/phone/phone';
 import { UserProvider } from '../../providers/user/user';
 
-import { PhonesettingsPage } from '../phonesettings/phonesettings';
-import { CallcdrPage } from '../callcdr/callcdr';
+// import { PhonesettingsPage } from '../phonesettings/phonesettings';
+// import { CallcdrPage } from '../callcdr/callcdr';
 
 import swal from 'sweetalert2';
 
@@ -189,16 +189,16 @@ export class PhonePage {
     this.mute = false;
   }
 
-  loadPhoneSettingsPage(fab: FabContainer) {
+  // loadPhoneSettingsPage(fab: FabContainer) {
 
-    fab.close();
-    this.navCtrl.push(PhonesettingsPage);
-  }
+  //   fab.close();
+  //   this.navCtrl.push(PhonesettingsPage);
+  // }
 
-  loadCallCdrPage(fab: FabContainer) {
+  // loadCallCdrPage(fab: FabContainer) {
 
-    fab.close();
-    this.navCtrl.push(CallcdrPage);
-  }
+  //   fab.close();
+  //   this.navCtrl.push(CallcdrPage);
+  // }
 
 }

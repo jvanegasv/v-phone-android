@@ -12,7 +12,7 @@ import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
 import { PhonelinesPage } from '../pages/phonelines/phonelines';
 import { BillingPage } from '../pages/billing/billing';
-import { SettingsPage } from '../pages/settings/settings';
+import { PhonesettingsPage } from '../pages/phonesettings/phonesettings';
 
 @Component({
   templateUrl: 'app.html'
@@ -79,7 +79,7 @@ export class MyApp {
         this.menuCtrl.toggle();
         break;
       case 'settings':
-        this.appref.getRootNav().push(SettingsPage);
+        this.appref.getRootNav().push(PhonesettingsPage);
         this.menuCtrl.toggle();
         break;
     }
