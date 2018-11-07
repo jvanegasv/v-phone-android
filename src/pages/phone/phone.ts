@@ -3,6 +3,7 @@ import { IonicPage, NavController, NavParams, LoadingController, ModalController
 
 import { PhoneProvider } from '../../providers/phone/phone';
 import { UserProvider } from '../../providers/user/user';
+import { StoreProvider } from '../../providers/store/store';
 
 import swal from 'sweetalert2';
 
@@ -20,22 +21,29 @@ import swal from 'sweetalert2';
 })
 export class PhonePage {
 
+  countries = [];
+  countrySelectOptions = {
+    title: 'Select a country',
+  }
+  callAsCountry = "";
+
   plivoOk:boolean = false;
   dialpad:string = "";
   dialpadShow = true;
   speaker = false;
   mute = false;
 
-
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public phone: PhoneProvider,
     public user: UserProvider,
+    public store: StoreProvider,
     public loadingCtrl: LoadingController,
     public modalCtrl: ModalController,
     public event: Events) {
 
       event.subscribe('callTo',(data) => {
+        this.callAsCountry = "";
         this.dialpad = data.phoneNumber;
         // this.callAsnwer();
       });
@@ -52,10 +60,11 @@ export class PhonePage {
 
   }
 
-  ionViewDidLoad() {
+  async ionViewDidLoad() {
     console.log('ionViewDidLoad PhonePage');
     this.resetCallControls();
     this.initPhone();
+    this.countries = await this.store.getKey('countries');
   }
 
   async initPhone() {
@@ -89,10 +98,10 @@ export class PhonePage {
             content: "Please wait...",
           });
           loading.present();
-          const quote:any = await this.phone.quote({username: this.user.userInfo.user_api_key, password: this.user.userInfo.user_api_pwd},this.dialpad);
+          const quote:any = await this.phone.quote({username: this.user.userInfo.user_api_key, password: this.user.userInfo.user_api_pwd},this.callAsCountry + this.dialpad);
           loading.dismiss();
 
-          const alertTitle = "Call to " + this.dialpad + " (" + quote.country_name + ")";
+          const alertTitle = "Call to " + this.callAsCountry + this.dialpad + " (" + quote.country_name + ")";
           let alertMsg = "";
           alertMsg += (this.user.endpointInfo.outbound.outbound.play_balance == 'Y')? "Your current balance is $" + quote.balance + ".<br/>": "";
           alertMsg += (this.user.endpointInfo.outbound.outbound.play_minutes == 'Y')? "You have " + quote.mins + " minutes available for this call.<br/>": "";
@@ -109,7 +118,7 @@ export class PhonePage {
           });
 
           if (confirmCall.value) {
-            this.phone.makeCall(this.dialpad);
+            this.phone.makeCall(this.callAsCountry + this.dialpad);
             this.dialpadShow = false;
             this.speaker = false;
             this.mute = false;
@@ -117,7 +126,7 @@ export class PhonePage {
           }
 
         } else {
-          this.phone.makeCall(this.dialpad);
+          this.phone.makeCall(this.callAsCountry + this.dialpad);
           this.dialpadShow = false;
           this.speaker = false;
           this.mute = false;
@@ -155,6 +164,9 @@ export class PhonePage {
   dialpadBackspace() {
 
     this.dialpad = this.dialpad.slice(0,-1);
+    if (this.dialpad == "") {
+      this.callAsCountry = "";
+    }
 
   }
 
@@ -181,6 +193,7 @@ export class PhonePage {
   resetCallControls() {
 
     this.dialpad = "";
+    this.callAsCountry = "";
     this.dialpadShow = true;
     this.speaker = false;
     this.mute = false;

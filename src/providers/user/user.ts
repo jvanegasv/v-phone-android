@@ -162,7 +162,8 @@ export class UserProvider {
       data.countries.forEach((country) => {
         countries.push({
           code: country.country_code_2,
-          name: country.country_name + ' (' + country.country_e164 + ')'
+          name: country.country_name + ' (' + country.country_e164 + ')',
+          e164: country.country_e164
         });
       });
 
