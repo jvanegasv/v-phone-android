@@ -7,7 +7,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>settings</ion-title>
+    <ion-title>Profile</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -15,4 +15,32 @@
 
 <ion-content padding>
 
+  <form #profileForm="ngForm" novalidate>
+
+  <ion-item>
+    <ion-label>First name:</ion-label>
+    <ion-input [(ngModel)]="user.userInfo.user_fname" name="usr_fname" required></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Last name:</ion-label>
+    <ion-input [(ngModel)]="user.userInfo.user_lname" name="usr_lname"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Low balance warning: $</ion-label>
+    <ion-input type="number" [(ngModel)]="usr_low_balance" name="usr_low_balance" required></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Time zone:</ion-label>
+    <ion-select [(ngModel)]="user.userInfo.user_timezone" name="usr_tz">
+        <ion-option *ngFor="let item of timezones" [value]="item.tmz_value">{{ item.tmz_value }}</ion-option>
+    </ion-select>
+
+  </ion-item>
+  <ion-item>
+    <button ion-button block (click)="saveChanges(profileForm)">
+      Save Changes
+    </button>
+  </ion-item>
+
+  </form>
 </ion-content>

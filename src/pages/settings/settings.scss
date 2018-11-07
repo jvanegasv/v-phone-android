@@ -1,3 +1,10 @@
 page-settings {
-
+  ion-select{
+    max-width: 100% !important;
+  }
+  ion-input {
+    input {
+      text-align: right;
+    }
+  }
 }

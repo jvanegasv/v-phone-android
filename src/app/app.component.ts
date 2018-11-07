@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Platform, App, MenuController } from 'ionic-angular';
+import { Platform, App, MenuController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
@@ -13,6 +13,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { BillingPage } from '../pages/billing/billing';
 import { PhonesettingsPage } from '../pages/phonesettings/phonesettings';
 import { ChkratesPage } from '../pages/chkrates/chkrates';
+import { SettingsPage } from '../pages/settings/settings';
 
 @Component({
   templateUrl: 'app.html'
@@ -23,6 +24,7 @@ export class MyApp {
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
     private appref: App,
     private menuCtrl: MenuController,
+    public alertCtrl: AlertController,
     private store: StoreProvider,
     private user: UserProvider,
     private phone: PhoneProvider) {
@@ -61,10 +63,31 @@ export class MyApp {
 
   doLogout() {
 
-    this.phone.logout();
-    this.user.logout();
-    this.appref.getRootNav().setRoot(LoginPage);
-    this.menuCtrl.toggle();
+    const confirm = this.alertCtrl.create({
+      title: 'Logout?',
+      message: 'Do you really want to logout?',
+      buttons: [
+        {
+          text: 'Yes',
+          handler: () => {
+            console.log('Disagree clicked');
+            this.phone.logout();
+            this.user.logout();
+            this.appref.getRootNav().setRoot(LoginPage);
+            this.menuCtrl.toggle();
+          }
+        },
+        {
+          text: 'No',
+          handler: () => {
+            console.log('No clicked');
+            this.menuCtrl.toggle();
+          }
+        }
+      ]
+    });
+    confirm.present();
+
   }
 
   openPage(pageToOpen: string) {
@@ -78,8 +101,12 @@ export class MyApp {
         this.appref.getRootNav().push(BillingPage);
         this.menuCtrl.toggle();
         break;
-      case 'settings':
+      case 'pcallsettings':
         this.appref.getRootNav().push(PhonesettingsPage);
+        this.menuCtrl.toggle();
+        break;
+      case 'profile':
+        this.appref.getRootNav().push(SettingsPage);
         this.menuCtrl.toggle();
         break;
     }

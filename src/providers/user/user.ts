@@ -24,6 +24,30 @@ export class UserProvider {
     console.log('Hello UserProvider Provider');
   }
 
+  profileSave(user_fname,user_lname,user_balance_warning,user_timezone) {
+
+    let promise = new Promise((resolve, reject) => {
+
+      this.http.useBasicAuth(this.userInfo.user_api_key,this.userInfo.user_api_pwd);
+      this.http.post("https://voip-communications.net/api-v2/index.php/cms/user",{user_id: this.userInfo.user_id,user_fname,user_lname,user_balance_warning,user_timezone},{})
+      .then((result) => {
+        const data = JSON.parse(result.data);
+        if (data.error) {
+          reject(data.error_message);
+        } else {
+          this.loadUserInfo();
+          resolve();
+        }
+      })
+      .catch((error) => {
+        reject('ERROR ' + error.status + ': ' + error.error);
+      });
+    });
+
+    return promise;
+
+  }
+
   register(user_fname, user_lname, user_email, user_password) {
 
     let promise = new Promise((resolve, reject) => {

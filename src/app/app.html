@@ -1,18 +1,12 @@
 <ion-menu [content]="content">
-  <ion-header>
-    <ion-toolbar>
-      <ion-title>
-        V-Phone
-      </ion-title>
-    </ion-toolbar>
-  </ion-header>
   <ion-content>
+    <br>
+    <div text-center>
+      <img src="assets/imgs/vphone.png" width="40px" height="47px">
+      <ion-title>V-Phone</ion-title>
+      v2.0.0
+    </div>
     <ion-list>
-
-      <button ion-item>
-          v2.0.0
-      </button>
-
       <button ion-item (click)="openPage('chkrates')">
         <ion-icon name="cash"></ion-icon> Check rates
       </button>
@@ -25,7 +19,7 @@
           <ion-icon name="contact"></ion-icon> Profile
       </button>
 
-      <button ion-item (click)="openPage('settings')">
+      <button ion-item (click)="openPage('pcallsettings')">
         <ion-icon name="cog"></ion-icon> Phone call settings
       </button>
 
