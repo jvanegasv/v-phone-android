@@ -79,7 +79,8 @@ export class CallcdrPage {
   makeCall(phoneNumber:string) {
 
     this.event.publish('callTo',{phoneNumber});
-    this.navCtrl.pop();
+    // this.navCtrl.pop();
+    this.navCtrl.parent.select(0);
 
   }
 

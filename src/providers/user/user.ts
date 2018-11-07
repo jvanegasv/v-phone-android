@@ -61,6 +61,7 @@ export class UserProvider {
           reject(data.error_message);
         } else {
           this.setUserEndpointInfo(data.user,data.endpoint);
+          this.getMisc();
           resolve();
         }
       })
@@ -92,6 +93,7 @@ export class UserProvider {
           this.unsetUserEndpointInfo();
         } else {
           this.setUserEndpointInfo(data.user,data.endpoint);
+          this.getMisc();
         }
       })
       .catch((error) => {
@@ -148,22 +150,34 @@ export class UserProvider {
     return promise;
   }
 
-  async getCountries() {
+  async getMisc() {
 
     let countries = [];
+    let timezones = [];
 
-    await this.http.get('https://voip-communications.net/api-v2/index.php/ionic/countries',{},{})
+    await this.http.get('https://voip-communications.net/api-v2/index.php/ionic/misc',{},{})
     .then((result) => {
       const data = JSON.parse(result.data);
+
       data.countries.forEach((country) => {
         countries.push({
           code: country.country_code_2,
           name: country.country_name + ' (' + country.country_e164 + ')'
         });
-      })
+      });
+
+      data.timezones.forEach((timezone) => {
+        timezones.push({
+          tmz_id: timezone.tmz_id,
+          tmz_value: timezone.tmz_value
+        });
+      });
+
+      this.store.setKey('countries',countries);
+      this.store.setKey('timezones',timezones);
+
     });
 
-    return countries;
   }
 
   registerDevice() {
@@ -171,7 +185,7 @@ export class UserProvider {
     const deviceInfo = {
       user_id: this.userInfo.user_id,
       endpoint_id: this.endpointInfo.endpoint_id,
-      vphone: '1.3.3',
+      vphone: '2.0.0',
       cordova: this.device.cordova,
       model: this.device.model,
       platform: this.device.platform,

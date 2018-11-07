@@ -37,7 +37,7 @@ export class PhonePage {
 
       event.subscribe('callTo',(data) => {
         this.dialpad = data.phoneNumber;
-        this.callAsnwer();
+        // this.callAsnwer();
       });
 
       event.subscribe('callTerminated',() => {

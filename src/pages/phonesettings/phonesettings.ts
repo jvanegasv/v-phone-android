@@ -4,6 +4,7 @@ import { NgForm } from '@angular/forms';
 
 import { UserProvider } from '../../providers/user/user';
 import { PhoneProvider } from '../../providers/phone/phone';
+import { StoreProvider } from '../../providers/store/store';
 
 /**
  * Generated class for the PhonesettingsPage page.
@@ -28,6 +29,7 @@ export class PhonesettingsPage {
     public navParams: NavParams,
     public user: UserProvider,
     public phone: PhoneProvider,
+    public store: StoreProvider,
     public loadingCtrl: LoadingController) {
 
       this.outbound = this.user.endpointInfo.outbound.outbound;
@@ -38,7 +40,7 @@ export class PhonesettingsPage {
     console.log('ionViewDidLoad PhonesettingsPage');
     this.play_balance = (this.outbound.play_balance == 'Y')? true: false;
     this.play_minutes = (this.outbound.play_minutes == 'Y')? true: false;
-    this.countries = await this.user.getCountries();
+    this.countries = await this.store.getKey('countries');
   }
 
   async saveChanges(form: NgForm) {
