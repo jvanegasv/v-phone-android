@@ -10,7 +10,7 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title><ion-icon name="call"></ion-icon> Phone</ion-title>
+    <ion-title>Phone</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -102,7 +102,7 @@
 
           <ion-col text-center>
               <button ion-button color="danger" round large (click)="endReject()">
-                <ion-icon name="close-circle"></ion-icon> ({{ phone.endpoint.callDuration }})
+                <ion-icon name="close-circle"></ion-icon>
               </button>
           </ion-col>
 
@@ -121,5 +121,8 @@
       </div>
 
     </ion-grid>
+    <div *ngIf="phone.endpoint.callStatus !== 'idle'">
+      Call duration: {{ phone.endpoint.callDuration }}
+    </div>
 
   </ion-content>
