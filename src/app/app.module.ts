@@ -18,6 +18,7 @@ import { SettingsPage } from '../pages/settings/settings';
 import { CallcdrPage } from '../pages/callcdr/callcdr';
 import { PhonesettingsPage } from '../pages/phonesettings/phonesettings';
 import { PlayphonerecPage } from '../pages/playphonerec/playphonerec';
+import { ChkratesPage } from './../pages/chkrates/chkrates';
 
 import { StoreProvider } from '../providers/store/store';
 import { UserProvider } from '../providers/user/user';
@@ -51,6 +52,7 @@ import { PhonenumberPipe } from '../pipes/phonenumber/phonenumber';
     CallcdrPage,
     PhonesettingsPage,
     PlayphonerecPage,
+    ChkratesPage,
     PhonenumberPipe
   ],
   imports: [
@@ -73,7 +75,8 @@ import { PhonenumberPipe } from '../pipes/phonenumber/phonenumber';
     SettingsPage,
     CallcdrPage,
     PhonesettingsPage,
-    PlayphonerecPage
+    PlayphonerecPage,
+    ChkratesPage
   ],
   providers: [
     StatusBar,

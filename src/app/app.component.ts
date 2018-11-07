@@ -10,9 +10,9 @@ import { PhoneProvider } from '../providers/phone/phone';
 import { SlidesPage } from '../pages/slides/slides';
 import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
-import { PhonelinesPage } from '../pages/phonelines/phonelines';
 import { BillingPage } from '../pages/billing/billing';
 import { PhonesettingsPage } from '../pages/phonesettings/phonesettings';
+import { ChkratesPage } from '../pages/chkrates/chkrates';
 
 @Component({
   templateUrl: 'app.html'
@@ -70,8 +70,8 @@ export class MyApp {
   openPage(pageToOpen: string) {
 
     switch(pageToOpen) {
-      case 'phonelines':
-        this.appref.getRootNav().push(PhonelinesPage);
+      case 'chkrates':
+        this.appref.getRootNav().push(ChkratesPage);
         this.menuCtrl.toggle();
         break;
       case 'billing':

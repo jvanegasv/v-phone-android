@@ -1,0 +1,80 @@
+<!--
+  Generated template for the ChkratesPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Check rates</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list>
+    <ion-item>
+      <ion-label>Country:</ion-label>
+      <ion-select [(ngModel)]="country">
+          <ion-option value="">Select a country</ion-option>
+          <ion-option *ngFor="let item of countries" [value]="item.e164">{{ item.name }}</ion-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label>Phone number:</ion-label>
+      <ion-input type="number" placeholder="Enter phone number" [(ngModel)]="dialpad"></ion-input>
+    </ion-item>
+    <ion-item>
+      <button ion-button block icon-start (click)="checkRate()">
+        <ion-icon name="cash"></ion-icon>
+        Check rate
+      </button>
+    </ion-item>
+  </ion-list>
+
+  <ion-card *ngIf="showCard" >
+
+    <ion-item>
+      <ion-avatar item-start>
+        <img [src]="quoteResult.flag">
+      </ion-avatar>
+      <h2>{{ quoteResult.to }}</h2>
+      <p>{{ quoteResult.country_name }}</p>
+    </ion-item>
+
+    <ion-card-content>
+      <ion-row>
+        <ion-col>
+          <h2>
+              <ion-icon name="call"></ion-icon>
+              Phone call
+          </h2>
+          <p>
+            {{ quoteResult.sale | currency }} / Minute
+            {{ quoteResult.mins | number }} minutes available
+          </p>
+        </ion-col>
+        <ion-col>
+          <h2>
+              <ion-icon name="send"></ion-icon>
+              SMS
+          </h2>
+          <p>
+            {{ quoteResult.sms.sale | currency }} / SMS
+          </p>
+        </ion-col>
+      </ion-row>
+    </ion-card-content>
+
+    <ion-row>
+      <ion-col>
+        <h3>Your current balance is {{ quoteResult.balance | currency }}</h3>
+      </ion-col>
+    </ion-row>
+
+  </ion-card>
+
+</ion-content>
