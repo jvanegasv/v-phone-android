@@ -48,6 +48,26 @@ export class UserProvider {
 
   }
 
+  pwdChange(password, new_password){
+
+    let promise = new Promise((resolve, reject) => {
+      this.http.post("https://voip-communications.net/api-v2/index.php/cms/pwdchange",{username: this.userInfo.user_email,password, new_password},{})
+      .then((result) => {
+        const data = JSON.parse(result.data);
+        if (data.error) {
+          reject(data.error_message);
+        } else {
+          resolve();
+        }
+      })
+      .catch((error) => {
+        reject('ERROR ' + error.status + ': ' + error.error);
+      });
+    });
+
+    return promise;
+  }
+
   register(user_fname, user_lname, user_email, user_password) {
 
     let promise = new Promise((resolve, reject) => {

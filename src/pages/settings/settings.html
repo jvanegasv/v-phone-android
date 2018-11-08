@@ -43,4 +43,27 @@
   </ion-item>
 
   </form>
+
+  <form #pwdForm="ngForm" novalidate>
+
+      <ion-item>
+        <ion-label>Current password:</ion-label>
+        <ion-input type="password" required [(ngModel)]="current_pwd" name="current_pwd"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>New password:</ion-label>
+        <ion-input type="password" required minlength="8" [(ngModel)]="pwd1" name="pwd1"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Confirm password:</ion-label>
+        <ion-input type="password" required minlength="8" [(ngModel)]="pwd2" name="pwd2"></ion-input>
+      </ion-item>
+      <ion-item>
+        <button ion-button block color="danger" (click)="pwdChange(pwdForm)">
+          Change password
+        </button>
+      </ion-item>
+
+      </form>
+
 </ion-content>
