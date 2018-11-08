@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, LoadingController } from 'ionic-angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
+
 import { NgForm } from '@angular/forms';
 
 import { RegisterPage } from '../register/register';
@@ -29,7 +31,8 @@ export class LoginPage {
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
     public user: UserProvider,
-    public loadingCtrl: LoadingController) {
+    public loadingCtrl: LoadingController,
+    public iab: InAppBrowser) {
   }
 
   ionViewDidLoad() {
@@ -79,6 +82,10 @@ export class LoginPage {
 
     }
 
+  }
+
+  openSystemBrowser(url: string) {
+    this.iab.create(url,'_system');
   }
 
 }

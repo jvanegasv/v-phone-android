@@ -1,47 +1,44 @@
 <ion-header>
 	<ion-navbar>
-		<ion-title>V-Phone</ion-title>
+		<ion-title>V-Phone :: Login</ion-title>
 	</ion-navbar>
 </ion-header>
 
-<ion-content padding>
-	<form #loginForm="ngForm" novalidate>
-	<!-- <div class="logo">
-		<img src="assets/imgs/vphone-keys.png" width="50%" alt="Ionic logo" class="center">
-	</div> -->
+<ion-content>
+  <br/>
+  <div text-center>
+        <img src="assets/imgs/vphone.png" width="50">
+  </div>
+
+  <form #loginForm="ngForm" novalidate>
 
   <ion-card>
     <ion-card-content>
-      <ion-card-title>
-        Login <ion-icon name="unlock"></ion-icon>
-      </ion-card-title>
+
       <p>
-        <ion-list>
-
           <ion-item>
-            <ion-input type="email" name="email" [(ngModel)]="email" placeholder="Email" required ngModel email></ion-input>
+            <ion-label color="primary">Email:</ion-label>
+            <ion-input type="email" name="email" [(ngModel)]="email" required ngModel email></ion-input>
           </ion-item>
 
           <ion-item>
-            <ion-input type="password" name="password" [(ngModel)]="password" placeholder="Password" required></ion-input>
+            <ion-label color="primary">Password:</ion-label>
+            <ion-input type="password" name="password" [(ngModel)]="password" required></ion-input>
           </ion-item>
 
-        </ion-list>
-
-        <button ion-button block (click)="doLogin(loginForm)">Login</button>
+          <button ion-button block round (click)="doLogin(loginForm)">Login</button>
 
 					<br />
 
-          Don't have an account?
-          <button ion-button block color="light" (click)="goToRegister()">Register</button>
-          <a href="https://voip-communications.net/vcw/user-lost-password">Forgot your password?</a>
+          <button ion-button block round color="light" (click)="goToRegister()">No user? Register here</button>
+          <button ion-button block round color="light" (click)="openSystemBrowser('https://voip-communications.net/vcw/user-lost-password')">Forgot your password?</button>
+
+          <br/>
+
+          <button ion-button block clear (click)="openSystemBrowser('https://voip-communications.net')">Voip-Communications</button>
         </p>
     </ion-card-content>
   </ion-card>
 </form>
-
-<br/>
-<h3>for more information go to</h3>
-<h2><a href="https://voip-communications.net">voip-communications.net</a></h2>
 
 </ion-content>
