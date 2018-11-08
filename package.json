@@ -74,8 +74,6 @@
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-fcm": {}
     },
-    "platforms": [
-      "android"
-    ]
+    "platforms": []
   }
 }

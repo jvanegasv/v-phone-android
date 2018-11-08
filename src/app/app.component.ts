@@ -3,6 +3,8 @@ import { Platform, App, MenuController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
+
 import { FCM } from '@ionic-native/fcm';
 
 import { StoreProvider } from '../providers/store/store';
@@ -12,7 +14,6 @@ import { PhoneProvider } from '../providers/phone/phone';
 import { SlidesPage } from '../pages/slides/slides';
 import { LoginPage } from '../pages/login/login';
 import { TabsPage } from '../pages/tabs/tabs';
-import { BillingPage } from '../pages/billing/billing';
 import { PhonesettingsPage } from '../pages/phonesettings/phonesettings';
 import { ChkratesPage } from '../pages/chkrates/chkrates';
 import { SettingsPage } from '../pages/settings/settings';
@@ -21,11 +22,31 @@ import { SettingsPage } from '../pages/settings/settings';
   templateUrl: 'app.html'
 })
 export class MyApp {
+
   rootPage:any;
+
+  iabOptions : InAppBrowserOptions = {
+    location : 'yes',//Or 'no'
+    hidden : 'no', //Or  'yes'
+    clearcache : 'yes',
+    clearsessioncache : 'yes',
+    zoom : 'yes',//Android only ,shows browser zoom controls
+    hardwareback : 'yes',
+    mediaPlaybackRequiresUserAction : 'no',
+    shouldPauseOnSuspend : 'no', //Android only
+    closebuttoncaption : 'Close', //iOS only
+    disallowoverscroll : 'no', //iOS only
+    toolbar : 'yes', //iOS only
+    enableViewportScale : 'no', //iOS only
+    allowInlineMediaPlayback : 'no',//iOS only
+    presentationstyle : 'pagesheet',//iOS only
+    fullscreen : 'yes',//Windows only
+  };
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
     private appref: App,
     private fcm: FCM,
+    public iab: InAppBrowser,
     private menuCtrl: MenuController,
     public alertCtrl: AlertController,
     private store: StoreProvider,
@@ -118,7 +139,9 @@ export class MyApp {
         this.menuCtrl.toggle();
         break;
       case 'billing':
-        this.appref.getRootNav().push(BillingPage);
+        const url = 'https://voip-communications.net/api-v2/index.php/rnpaypal/step1/' + this.user.userInfo.user_api_key + '/' + this.user.userInfo.user_api_pwd;
+        let target = "_self";
+        this.iab.create(url,target,this.iabOptions);
         this.menuCtrl.toggle();
         break;
       case 'pcallsettings':

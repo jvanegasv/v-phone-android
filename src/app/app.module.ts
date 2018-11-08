@@ -29,7 +29,7 @@ import { IonicStorageModule } from '@ionic/storage';
 import { HTTP } from '@ionic-native/http';
 import { Diagnostic } from '@ionic-native/diagnostic';
 import { Contacts } from '@ionic-native/contacts';
-import { PayPal } from '@ionic-native/paypal';
+// import { PayPal } from '@ionic-native/paypal';
 import { Device } from '@ionic-native/device';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { FCM } from '@ionic-native/fcm';
@@ -91,7 +91,7 @@ import { PhonenumberPipe } from '../pipes/phonenumber/phonenumber';
     HTTP,
     Diagnostic,
     Contacts,
-    PayPal,
+    // PayPal,
     Device,
     InAppBrowser,
     FCM

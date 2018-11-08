@@ -1,0 +1,10 @@
+//////////// ANDROID ///////////
+Jorges-MacBook-Pro-2:v-phone jorgevanegas$ code-push app add V-Phone-android android cordova
+Successfully added the "V-Phone-android" app, along with the following default deployments:
+┌────────────┬──────────────────────────────────────────────────────────────────┐
+│ Name       │ Deployment Key                                                   │
+├────────────┼──────────────────────────────────────────────────────────────────┤
+│ Production │ MKO8W8iZbSd2sky-bLN5vnv0BiIIf92f9ba3-8336-46ff-a9d1-e07071569f0b │
+├────────────┼──────────────────────────────────────────────────────────────────┤
+│ Staging    │ yKJ0f6CCKJVKAgkYzyds7rNS4Vqnf92f9ba3-8336-46ff-a9d1-e07071569f0b │
+└────────────┴──────────────────────────────────────────────────────────────────┘
