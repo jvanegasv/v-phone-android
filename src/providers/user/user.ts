@@ -1,6 +1,5 @@
 import { HTTP } from '@ionic-native/http';
 import { Injectable } from '@angular/core';
-import { Platform } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 
 import { StoreProvider } from '../store/store'
@@ -21,8 +20,7 @@ export class UserProvider {
 
   constructor(private http: HTTP,
     private store: StoreProvider,
-    private device: Device,
-    public platform: Platform) {
+    private device: Device) {
     console.log('Hello UserProvider Provider');
   }
 
@@ -161,7 +159,7 @@ export class UserProvider {
 
     this.store.getKey('FCMToken').then((data) => {
       this.http.useBasicAuth(this.userInfo.user_api_key,this.userInfo.user_api_pwd);
-      this.http.post("https://voip-communications.net/api-v2/index.php/pushnotifications/register",{token: data, platformOS: 'android', platformVersion: 'XX'},{});
+      this.http.post("https://voip-communications.net/api-v2/index.php/pushnotifications/register",{token: data, platformOS: 'android', platformVersion: this.device.version},{});
     });
 
   }
