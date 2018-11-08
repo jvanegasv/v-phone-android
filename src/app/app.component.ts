@@ -3,6 +3,8 @@ import { Platform, App, MenuController, AlertController } from 'ionic-angular';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { FCM } from '@ionic-native/fcm';
+
 import { StoreProvider } from '../providers/store/store';
 import { UserProvider } from '../providers/user/user';
 import { PhoneProvider } from '../providers/phone/phone';
@@ -23,12 +25,30 @@ export class MyApp {
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
     private appref: App,
+    private fcm: FCM,
     private menuCtrl: MenuController,
     public alertCtrl: AlertController,
     private store: StoreProvider,
     private user: UserProvider,
     private phone: PhoneProvider) {
     platform.ready().then(() => {
+
+      fcm.subscribeToTopic('all');
+      fcm.getToken().then(token=>{
+          console.log("FCM: " ,token);
+          this.store.setKey('FCMToken',token);
+      })
+      fcm.onNotification().subscribe(data=>{
+        if(data.wasTapped){
+          console.log("FCM: Received in background");
+        } else {
+          console.log("FCM Received in foreground");
+        };
+      })
+      fcm.onTokenRefresh().subscribe(token=>{
+        console.log(token);
+        this.user.FCMRefresh(token);
+      });
 
       this.setRootPage().then(() => {
           // Okay, so the platform is ready and our plugins are available.

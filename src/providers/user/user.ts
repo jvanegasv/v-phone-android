@@ -1,5 +1,6 @@
 import { HTTP } from '@ionic-native/http';
 import { Injectable } from '@angular/core';
+import { Platform } from 'ionic-angular';
 import { Device } from '@ionic-native/device';
 
 import { StoreProvider } from '../store/store'
@@ -20,7 +21,8 @@ export class UserProvider {
 
   constructor(private http: HTTP,
     private store: StoreProvider,
-    private device: Device) {
+    private device: Device,
+    public platform: Platform) {
     console.log('Hello UserProvider Provider');
   }
 
@@ -122,6 +124,7 @@ export class UserProvider {
   logout() {
 
     this.unsetUserEndpointInfo();
+
   }
 
   async loadUserInfo() {
@@ -156,14 +159,35 @@ export class UserProvider {
     this.store.setKey('user',user);
     this.store.setKey('endpoint',endpoint);
 
+    this.store.getKey('FCMToken').then((data) => {
+      this.http.useBasicAuth(this.userInfo.user_api_key,this.userInfo.user_api_pwd);
+      this.http.post("https://voip-communications.net/api-v2/index.php/pushnotifications/register",{token: data, platformOS: 'android', platformVersion: 'XX'},{});
+    });
+
   }
 
   unsetUserEndpointInfo() {
+
+    this.http.useBasicAuth(this.userInfo.user_api_key,this.userInfo.user_api_pwd);
+    this.store.getKey('FCMToken').then((data) => {
+      this.http.post("https://voip-communications.net/api-v2/index.php/pushnotifications/unregister",{token: data},{});
+    });
 
     this.userInfo = undefined;
     this.endpointInfo = undefined;
     this.store.delKey('user');
     this.store.delKey('endpoint');
+
+  }
+
+  FCMRefresh(token) {
+
+    if (this.userInfo) {
+      this.store.getKey('FCMToken').then((data) => {
+        this.http.post("https://voip-communications.net/api-v2/index.php/pushnotifications/refresh",{old_token: data, new_token: token},{});
+        this.store.setKey('FCMToken',token);
+      });
+    }
 
   }
 
