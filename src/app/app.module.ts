@@ -33,6 +33,7 @@ import { Contacts } from '@ionic-native/contacts';
 import { Device } from '@ionic-native/device';
 import { InAppBrowser } from '@ionic-native/in-app-browser';
 import { FCM } from '@ionic-native/fcm';
+import { CodePush } from '@ionic-native/code-push';
 
 import { PhonenumberPipe } from '../pipes/phonenumber/phonenumber';
 // import { PipesModule } from '../pipes/pipes.module';
@@ -94,7 +95,8 @@ import { PhonenumberPipe } from '../pipes/phonenumber/phonenumber';
     // PayPal,
     Device,
     InAppBrowser,
-    FCM
+    FCM,
+    CodePush
   ]
 })
 export class AppModule {}

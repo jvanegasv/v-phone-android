@@ -6,6 +6,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { InAppBrowser, InAppBrowserOptions } from '@ionic-native/in-app-browser';
 
 import { FCM } from '@ionic-native/fcm';
+import { CodePush, InstallMode } from '@ionic-native/code-push';
 
 import { StoreProvider } from '../providers/store/store';
 import { UserProvider } from '../providers/user/user';
@@ -47,6 +48,7 @@ export class MyApp {
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen,
     private appref: App,
     private fcm: FCM,
+    private codePush: CodePush,
     public iab: InAppBrowser,
     private menuCtrl: MenuController,
     public alertCtrl: AlertController,
@@ -78,9 +80,16 @@ export class MyApp {
           statusBar.styleDefault();
           splashScreen.hide();
 
-      })
+          this.checkCodePush();
+
+      });
 
     });
+
+    platform.resume.subscribe(() => {
+      this.checkCodePush();
+    });
+
   }
 
   async setRootPage() {
@@ -101,6 +110,24 @@ export class MyApp {
     } else {
       this.rootPage = SlidesPage;
     }
+  }
+
+  checkCodePush() {
+
+    this.codePush.sync({
+      updateDialog: {
+        appendReleaseDescription: true
+      },
+      installMode: InstallMode.IMMEDIATE
+    }).subscribe(
+      (data) => {
+        console.log('CODE PUSH SUCCESSFUL: ' + data);
+      },
+      (err) => {
+        console.log('CODE PUSH ERROR: ' + err);
+        alert('Upadte ERROR: ' + err);
+      }
+    );
   }
 
   doLogout() {

@@ -8,3 +8,7 @@ Successfully added the "V-Phone-android" app, along with the following default d
 ├────────────┼──────────────────────────────────────────────────────────────────┤
 │ Staging    │ yKJ0f6CCKJVKAgkYzyds7rNS4Vqnf92f9ba3-8336-46ff-a9d1-e07071569f0b │
 └────────────┴──────────────────────────────────────────────────────────────────┘
+
+
+1) ionic cordova prepare android
+2) code-push release-cordova V-Phone-android android -m -d Production --des "XXXXXXX descripcion del cambio"
