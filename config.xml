@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="net.vpcm.vphone" version="2.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="net.vpcm.vphone" version="2.1.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
     <platform name="android">
         <preference name="CodePushDeploymentKey" value="MKO8W8iZbSd2sky-bLN5vnv0BiIIf92f9ba3-8336-46ff-a9d1-e07071569f0b" />
     </platform>
