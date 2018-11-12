@@ -12,6 +12,9 @@ log.txt
 .vscode/
 npm-debug.log*
 
+codepushkeys.txt
+google-services.json
+
 .idea/
 .ionic/
 .sourcemaps/
