@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "730100804779",
+    "firebase_url": "https://vpcm-22bd6.firebaseio.com",
+    "project_id": "vpcm-22bd6",
+    "storage_bucket": "vpcm-22bd6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730100804779:android:42a13b895e10b1e1",
+        "android_client_info": {
+          "package_name": "net.vpcm.vphone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "730100804779-gnk3n8b8jp3cnk475fhl67r48nt1e5mu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASzqBCiyFtPjR8IWc5QyH8bd6bzoXJl4I"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
