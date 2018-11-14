@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import { ToastController, AlertController, LoadingController, Events } from 'ionic-angular';
 import { Diagnostic } from '@ionic-native/diagnostic';
 
-import { StoreProvider } from '../store/store';
-
 declare var AudioToggle;
 
 /*
@@ -33,7 +31,6 @@ export class PhoneProvider {
     public alertCtrl: AlertController,
     public loadingCtrl: LoadingController,
     private http: HTTP,
-    public store: StoreProvider,
     public event: Events
   ) {
 

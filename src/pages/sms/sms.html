@@ -10,12 +10,53 @@
     <button ion-button menuToggle>
       <ion-icon name="menu"></ion-icon>
     </button>
-    <ion-title><ion-icon name="chatbubbles"></ion-icon> SMS</ion-title>
+    <ion-title>Messages</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+
+  <ion-fab top right edge>
+    <button ion-fab mini (click)="newSms()"><ion-icon name="add"></ion-icon></button>
+  </ion-fab>
+
+  <ion-list no-lines>
+    <ion-item ion-item *ngFor="let item of smsSumary">
+      <ion-avatar item-start>
+        <img [src]="item.country">
+      </ion-avatar>
+      <h2>{{ item.external }} ({{ item.status }})</h2>
+      <p>{{ item.date | date:'short' }}  - {{ item.cost | currency }}</p>
+      <h3>{{ item.msg }}</h3>
+      <p>
+        <button ion-button (click)="loadChat(item.external)">
+          <ion-icon name="chatbubbles"></ion-icon>
+        </button>
+      </p>
+      <!-- <p>
+        <ion-row>
+          <ion-col *ngIf="item.record != '' && item.duration > 0">
+            <button ion-button full icon-only small (click)="playPhoneRec(item)">
+              <ion-icon name="recording"></ion-icon>
+            </button>
+          </ion-col>
+          <ion-col>
+            <button ion-button full icon-only small (click)="makeCall(item.number)">
+              <ion-icon name="call"></ion-icon>
+            </button>
+          </ion-col>
+        </ion-row>
+      </p> -->
+    </ion-item>
+  </ion-list>
+
+  <ion-infinite-scroll (ionInfinite)="$event.waitFor(loadsummary())">
+    <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="Loading more data...">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 
 </ion-content>

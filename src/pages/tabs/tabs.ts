@@ -4,8 +4,9 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { UserProvider } from '../../providers/user/user'
 
 import { PhonePage } from '../phone/phone';
-import { ContactsPage } from '../contacts/contacts';
+import { SmsPage } from './../sms/sms';
 import { CallcdrPage } from '../callcdr/callcdr';
+import { ContactsPage } from '../contacts/contacts';
 
 /**
  * Generated class for the TabsPage page.
@@ -22,8 +23,9 @@ import { CallcdrPage } from '../callcdr/callcdr';
 export class TabsPage {
 
   tab1Root = PhonePage;
-  tab2Root = CallcdrPage;
-  tab3Root = ContactsPage;
+  tab2Root = SmsPage
+  tab3Root = CallcdrPage;
+  tab4Root = ContactsPage;
 
   constructor(public navCtrl: NavController,
     public navParams: NavParams,
