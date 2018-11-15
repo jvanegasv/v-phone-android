@@ -18,8 +18,8 @@
 
 <ion-content padding>
 
-  <ion-fab top right edge>
-    <button ion-fab mini (click)="newSms()"><ion-icon name="add"></ion-icon></button>
+  <ion-fab right bottom>
+    <button ion-fab mini (click)="newSms()"><ion-icon name="ios-create"></ion-icon></button>
   </ion-fab>
 
   <ion-list no-lines>
@@ -29,26 +29,7 @@
       </ion-avatar>
       <h2>{{ item.external }} ({{ item.status }})</h2>
       <p>{{ item.date | date:'short' }}  - {{ item.cost | currency }}</p>
-      <h3>{{ item.msg }}</h3>
-      <p>
-        <button ion-button (click)="loadChat(item.external)">
-          <ion-icon name="chatbubbles"></ion-icon>
-        </button>
-      </p>
-      <!-- <p>
-        <ion-row>
-          <ion-col *ngIf="item.record != '' && item.duration > 0">
-            <button ion-button full icon-only small (click)="playPhoneRec(item)">
-              <ion-icon name="recording"></ion-icon>
-            </button>
-          </ion-col>
-          <ion-col>
-            <button ion-button full icon-only small (click)="makeCall(item.number)">
-              <ion-icon name="call"></ion-icon>
-            </button>
-          </ion-col>
-        </ion-row>
-      </p> -->
+      <p>{{ item.msg }}</p>
     </ion-item>
   </ion-list>
 
